@@ -1,0 +1,189 @@
+import java.util.*;
+import java.io.*;
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.*;
+public class GraphTester
+{
+   public static void main (String[] args) throws FileNotFoundException
+   {
+      if(args.length == 1)//if there is an input file arguments when running the program,
+                          //the program uses that instead of a GUI
+      {
+         Scanner f = new Scanner(new File(args[0]));
+         //each letter in the input file will correspond to some command
+         while (f.hasNext()) 
+         {
+            String command = f.nextLine();
+            if (command.equals("a"))
+            {
+               GPSGraph.read(f.nextLine());
+               System.out.println("File has been read.");
+               System.out.println();
+            }
+            if (command.equals("b"))
+            {
+               GPSGraph.searchByState(f.nextLine());
+               System.out.println();
+            }
+            if (command.equals("c"))
+            {
+               GPSGraph.searchByState(f.nextLine());
+               System.out.println();
+            }
+            if (command.equals("d"))
+            {
+               GPSGraph.setSource(f.nextInt());
+               System.out.println("Source has been set.");
+               System.out.println();
+            }
+            if (command.equals("e"))
+            {
+               GPSGraph.getSource();
+               System.out.println();
+            }
+            if (command.equals("f"))
+            {
+               GPSGraph.getClosestByDistance(f.nextInt());
+               System.out.println();
+            }
+            if (command.equals("g"))
+            {
+               GPSGraph.getClosestByCost(f.nextInt());
+               System.out.println();
+            }
+            if (command.equals("h"))
+            {
+               GPSGraph.getShortestPath(f.nextInt());
+               System.out.println();
+            }
+            if (command.equals("i"))
+            {
+               GPSGraph.exit();
+            }
+         }
+         System.exit(0);
+      }
+      else
+      {
+      //Creating the GUI
+         JFrame frame = new JFrame("GPS Calculator");
+         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+         Container contentPane = frame.getContentPane();
+         contentPane.setLayout(new FlowLayout());
+         JPanel panel = new JPanel();
+         frame.add(panel);
+      
+      //BUTTONS
+      
+         JButton read = new JButton("Read File");
+         read.addActionListener(
+               new ActionListener(){
+                  public void actionPerformed (ActionEvent e)
+                  { 
+                     try{GPSGraph.read();}
+                     catch(IOException i){}
+                     System.out.println("Finished reading file.");
+                  }
+               }
+            );
+         frame.add(read);
+      
+         JButton sbs = new JButton("Search by State");
+         sbs.addActionListener(
+               new ActionListener(){
+                  public void actionPerformed (ActionEvent e)
+                  { GPSGraph.searchByState();
+                  }
+               }
+            );
+         frame.add(sbs);
+      
+         JButton sbc = new JButton("Search for City");
+         sbc.addActionListener(
+               new ActionListener(){
+                  public void actionPerformed (ActionEvent e)
+                  { GPSGraph.searchByCity();
+                  
+                  }
+               }
+            );
+         frame.add(sbc);
+      
+         JButton set = new JButton("Set Current City");
+         set.addActionListener(
+               new ActionListener(){
+                  public void actionPerformed (ActionEvent e)
+                  {
+                     System.out.println("Action called----------");
+                      GPSGraph.setSource();
+                     System.out.println("Current city has been set.");
+                  }
+               }
+            );
+         frame.add(set);
+      
+         JButton show = new JButton("Show Current City");
+         show.addActionListener(
+               new ActionListener(){
+                  public void actionPerformed (ActionEvent e)
+                  { GPSGraph.getSource();
+                  
+                  }
+               }
+            );
+         frame.add(show);
+      
+         JButton findGPS = new JButton("Find Closest Cities");
+         findGPS.addActionListener(
+               new ActionListener(){
+                  public void actionPerformed (ActionEvent e)
+                  { GPSGraph.getClosestByDistance();
+                  
+                  }
+               }
+            );
+         frame.add(findGPS);
+      
+         JButton findCost = new JButton("Find Cheapest Cities");
+         findCost.addActionListener(
+               new ActionListener(){
+                  public void actionPerformed (ActionEvent e)
+                  { GPSGraph.getClosestByCost();
+                  
+                  }
+               }
+            );
+         frame.add(findCost);
+      
+         JButton shortestPath = new JButton("Get Shortest Path");
+         shortestPath.addActionListener(
+               new ActionListener(){
+                  public void actionPerformed (ActionEvent e)
+                  { GPSGraph.getShortestPath();
+                  
+                  }
+               }
+            );
+         frame.add(shortestPath);
+      
+         JButton exit = new JButton("Quit");
+         exit.addActionListener(
+               new ActionListener(){
+                  public void actionPerformed (ActionEvent e)
+                  { GPSGraph.exit();
+                  
+                  }
+               }
+            );
+         frame.add(exit);
+      
+         
+      //Making the frame visible
+         frame.pack();
+         frame.setVisible(true);
+      }
+   
+   }
+
+}
